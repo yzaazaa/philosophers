@@ -1,6 +1,6 @@
 NAME = philo
 
-SRCS = parser.c fork.c main.c
+SRCS = error.c parser.c fork.c philo.c logs.c main.c
 
 OBJS = ${SRCS:.c=.o}
 

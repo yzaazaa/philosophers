@@ -7,15 +7,13 @@ t_fork	*generate_forks(t_args	*args)
 
 	forks = (t_fork *)malloc(args->number_of_philosophers * sizeof(t_fork));
 	if(!forks)
-	{
-		printf("Error allocating memory !\n");
-		exit(0);
-	}
+		ft_error(ERROR_MALLOC);
 	i = 0;
 	while(i < args->number_of_philosophers)
 	{
 		forks[i].fork_id = i;
-		pthread_mutex_init(&forks[i].fork_mutex, 0);
+		if(pthread_mutex_init(&forks[i].fork_mutex, 0) != 0)
+			ft_error(ERROR_MUTEX_INIT);
 		i++;
 	}
 	return (forks);
@@ -42,19 +40,13 @@ t_fork	**generate_fork_couples(t_wrapper *wrapper)
 
 	fork_couples = (t_fork **)malloc(sizeof(t_fork *) * wrapper->args->number_of_philosophers);
 	if(!fork_couples)
-	{
-		printf("Error allocating memory !\n");
-		exit(0);
-	}
+		ft_error(ERROR_MALLOC);
 	i = 0;
 	while(i < wrapper->args->number_of_philosophers)
 	{
 		fork_couples[i] = (t_fork *)malloc(sizeof(t_fork) * 2);
 		if(!fork_couples[i])
-		{
-			printf("Error allocating memory !\n");
-			exit(0);
-		}
+			ft_error(ERROR_MALLOC);
 		fork_couples[i][0] = wrapper->forks[i];
 		if(i > 0)
 			fork_couples[i][1] = wrapper->forks[i - 1];

@@ -14,10 +14,7 @@ size_t	ft_atoi(const char *nptr)
 	if(*ptr == '-' || *ptr == '+')
 	{
 		if(*ptr == '-')
-		{
-			printf("Arguments can not be negative !\n");
-			exit(0);
-		}
+			ft_error(ARGS_NEG);
 		ptr++;
 	}
 	while(*ptr >= '0' && *ptr <= '9')
@@ -33,16 +30,10 @@ t_args	*ft_parser(int ac, char **av)
 	t_args	*args;
 
 	if(ac != 5 && ac != 6)
-	{
-		printf("Arguments invalid !\n");
-		exit(0);
-	}
+		ft_error(ARGS_INVALID);
 	args = (t_args *)malloc(sizeof(t_args));
 	if(!args)
-	{
-		printf("Error allocating memory !\n");
-		exit(0);
-	}
+		ft_error(ERROR_MALLOC);
 	args->number_of_philosophers = ft_atoi(av[1]);
 	args->time_to_die = ft_atoi(av[2]);
 	args->time_to_eat = ft_atoi(av[3]);

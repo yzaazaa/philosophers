@@ -11,6 +11,8 @@
 
 #define ERROR_MALLOC "Error allocating memory !"
 #define ERROR_MUTEX_INIT "Error initializing mutex !"
+#define ERROR_CREATE_THREAD "Error creating thread !"
+#define ERROR_JOIN_THREAD "Error joining thread !"
 #define ARGS_INVALID "Arguments invalid !"
 #define ARGS_NEG "Arguments can not be negative !"
 
@@ -43,6 +45,8 @@ typedef	struct s_philo
 	size_t			philo_id;
 	pthread_t		thread;
 	t_fork			*fork_couple;
+	size_t			time_left;
+	size_t			meals_count;
 	pthread_mutex_t	philo_mutex;
 }	t_philo;
 
@@ -54,6 +58,13 @@ typedef	struct s_wrapper
 	t_fork			**fork_couples;
 	pthread_mutex_t	wrapper_mutex;
 }	t_wrapper;
+
+typedef	struct s_params
+{
+	t_philo		*philo;
+	t_wrapper	*wrapper;
+}	t_params;
+
 
 void	ft_error(char *s);
 
@@ -68,6 +79,10 @@ t_philo	*generate_philos(t_wrapper *wrapper);
 void	destroy_philos(t_wrapper *wrapper);
 
 size_t	ft_time();
-void	ft_log(char *s, t_wrapper *wrapper, size_t i);
+void	ft_log(char *s, t_wrapper *wrapper, size_t id);
+
+void	*loop(void *params);
+
+int	thread(t_wrapper *wrapper);
 
 #endif

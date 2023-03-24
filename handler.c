@@ -8,10 +8,10 @@ t_params	*generate_params(t_wrapper *wrapper)
 	params = (t_params *)malloc(sizeof(t_params) * wrapper->args->number_of_philosophers);
 	if(!params)
 		ft_error(ERROR_MALLOC);
-	params->wrapper = wrapper;
 	i = 0;
 	while(i < wrapper->args->number_of_philosophers)
 	{
+		params[i].wrapper = wrapper;
 		params[i].philo = &wrapper->philos[i];
 		i++;
 	}
@@ -51,7 +51,6 @@ int	thread(t_wrapper *wrapper)
 	size_t		i;
 
 	wrapper->forks = generate_forks(wrapper->args);
-	wrapper->fork_couples = generate_fork_couples(wrapper);
 	wrapper->philos = generate_philos(wrapper);
 	params = generate_params(wrapper);
 	if(!wrapper->args || !wrapper->forks || !params)

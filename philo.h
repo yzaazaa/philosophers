@@ -44,7 +44,7 @@ typedef	struct s_philo
 {
 	size_t			philo_id;
 	pthread_t		thread;
-	t_fork			*fork_couple;
+	t_fork			**fork_couple;
 	size_t			time_left;
 	size_t			meals_count;
 	pthread_mutex_t	philo_mutex;
@@ -55,7 +55,6 @@ typedef	struct s_wrapper
 	t_args			*args;
 	t_philo			*philos;
 	t_fork			*forks;
-	t_fork			**fork_couples;
 	pthread_mutex_t	wrapper_mutex;
 }	t_wrapper;
 
@@ -71,9 +70,8 @@ void	ft_error(char *s);
 t_args	*ft_parser(int ac, char **av);
 
 t_fork	*generate_forks(t_args	*args);
-t_fork	**generate_fork_couples(t_wrapper *wrapper);
+t_fork	**get_forks(t_wrapper *wrapper, size_t id);
 void	destroy_forks(t_wrapper *wrapper);
-void	destroy_fork_couples(t_wrapper *wrapper);
 
 t_philo	*generate_philos(t_wrapper *wrapper);
 void	destroy_philos(t_wrapper *wrapper);

@@ -33,39 +33,17 @@ void	destroy_forks(t_wrapper *wrapper)
 	free(wrapper->forks);
 }
 
-t_fork	**generate_fork_couples(t_wrapper *wrapper)
+t_fork	**get_forks(t_wrapper *wrapper, size_t id)
 {
-	t_fork	**fork_couples;
-	size_t	i;
+	t_fork	**fork_couple;
 
-	fork_couples = (t_fork **)malloc(sizeof(t_fork *) * wrapper->args->number_of_philosophers);
-	if(!fork_couples)
+	fork_couple = (t_fork **)malloc(sizeof(t_fork *) * 2);
+	if(!fork_couple)
 		ft_error(ERROR_MALLOC);
-	i = 0;
-	while(i < wrapper->args->number_of_philosophers)
-	{
-		fork_couples[i] = (t_fork *)malloc(sizeof(t_fork) * 2);
-		if(!fork_couples[i])
-			ft_error(ERROR_MALLOC);
-		fork_couples[i][0] = wrapper->forks[i];
-		if(i > 0)
-			fork_couples[i][1] = wrapper->forks[i - 1];
-		else if(i == 0 && wrapper->args->number_of_philosophers > 1)
-			fork_couples[i][1] = wrapper->forks[wrapper->args->number_of_philosophers - 1];
-		i++;
-	}
-	return (fork_couples);
-}
-
-void	destroy_fork_couples(t_wrapper *wrapper)
-{
-	size_t	i;
-
-	i = 0;
-	while(i < wrapper->args->number_of_philosophers)
-	{
-		free(wrapper->fork_couples[i]);
-		i++;
-	}
-	free(wrapper->fork_couples);
+	fork_couple[0] = &wrapper->forks[id];
+	if(id > 0)
+		fork_couple[1] = &wrapper->forks[id - 1];
+	else if(wrapper->args->number_of_philosophers > 1)
+		fork_couple[1] = &wrapper->forks[wrapper->args->number_of_philosophers - 1];
+	return (fork_couple);
 }

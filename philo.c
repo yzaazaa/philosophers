@@ -12,7 +12,7 @@ t_philo	*generate_philos(t_wrapper *wrapper)
 	while(i < wrapper->args->number_of_philosophers)
 	{
 		philos[i].philo_id = i;
-		philos[i].fork_couple = wrapper->fork_couples[i];
+		philos[i].fork_couple = get_forks(wrapper, i);
 		philos[i].meals_count = 0;
 		philos[i].time_left = wrapper->args->time_to_die + ft_time();
 		if(pthread_mutex_init(&philos[i].philo_mutex, 0) != 0)
@@ -31,14 +31,14 @@ void	ft_sleep(size_t time, t_wrapper *wrapper)
 
 void	ft_eat(t_params *params)
 {
-	pthread_mutex_lock(&params->philo->fork_couple[0].fork_mutex);
+	pthread_mutex_lock(&params->philo->fork_couple[0]->fork_mutex);
 	ft_log(TAKEN_FORK, params->wrapper, params->philo->philo_id);
-	if(params->philo->fork_couple[1].fork_id == params->philo->fork_couple[0].fork_id)
+	if(!params->philo->fork_couple[1])
 	{
-		ft_sleep(params->wrapper->args->time_to_die, params->wrapper);
+		ft_sleep(params->wrapper->args->time_to_die * 2, params->wrapper);
 		return ;
 	}
-	pthread_mutex_lock(&params->philo->fork_couple[1].fork_mutex);
+	pthread_mutex_lock(&params->philo->fork_couple[1]->fork_mutex);
 	ft_log(TAKEN_FORK, params->wrapper, params->philo->philo_id);
 	pthread_mutex_lock(&params->philo->philo_mutex);
 	ft_log(EATING, params->wrapper, params->philo->philo_id);
@@ -48,8 +48,8 @@ void	ft_eat(t_params *params)
 	pthread_mutex_lock(&params->philo->philo_mutex);
 	params->philo->meals_count++;
 	pthread_mutex_unlock(&params->philo->philo_mutex);
-	pthread_mutex_unlock(&params->philo->fork_couple[1].fork_mutex);
-	pthread_mutex_unlock(&params->philo->fork_couple[0].fork_mutex);
+	pthread_mutex_unlock(&params->philo->fork_couple[1]->fork_mutex);
+	pthread_mutex_unlock(&params->philo->fork_couple[0]->fork_mutex);
 }
 
 void	*loop(void *params)

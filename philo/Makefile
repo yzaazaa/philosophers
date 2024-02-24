@@ -1,35 +1,33 @@
-#SOURCE FILES
-SRCS = srcs/setup.c srcs/loop.c srcs/main.c srcs/parse.c
+SRCS = check_args.c ft_exit.c ft_print.c get_time.c init_data.c main.c manage_philos.c routine.c
 
-#OBJECT FILES
-OBJS = ${SRCS:.c=.o}
+OBJS = $(SRCS:.c=.o)
 
-#HEADERS
-HEADERS = includes/philo.h
+HEADER = philo.h
 
-#PROGRAM NAME
 NAME = philo
 
-#COMPILER
-CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
-#FLAGS
-CFLAGS = -Wall -Wextra -Werror -pthread
+COMP = cc
 
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo "Compiling philo ..."
+	@$(COMP) $(CFLAGS) $(OBJS) -o $(NAME)
 
-%.o : %.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o : %.c $(HEADER)
+	@echo "Compiling $< ..."
+	@$(COMP) $(CFLAGS) -c $< -o $@
 
 clean :
-	rm -rf $(OBJS)
+	@echo "Deleting object files ..."
+	@rm -rf $(OBJS)
 
 fclean :
-	rm -rf $(OBJS) $(NAME)
+	@echo "Deleting all ..."
+	@rm -rf $(OBJS) $(NAME)
 
 re : fclean all
 
-.PHONY : fclean clean
+.PHONY : clean fclean

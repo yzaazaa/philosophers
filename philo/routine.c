@@ -6,74 +6,46 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 18:00:50 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/25 01:45:37 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/25 20:00:14 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_usleep(int time)
+void	ft_usleep(long time)
 {
-	int	time_now;
+	long	time_now;
 
-	time_now = get_time();
-	while (get_time() - time_now < time)
-		usleep(50);
-}
-
-void	manage_forks(t_philo *philo, int lock, t_args args)
-{
-	if (lock == 0)
-	{
-		pthread_mutex_lock(&philo->data->forks[philo->id - 1]);
-		ft_print(philo, FORK_TAKEN, 1);
-		pthread_mutex_lock(&philo->mutex);
-		if (philo->id == args.nb_philos)
-			pthread_mutex_lock(&philo->data->forks[0]);
-		else
-			pthread_mutex_lock(&philo->data->forks[philo->id]);
-		pthread_mutex_unlock(&philo->mutex);
-		ft_print(philo, FORK_TAKEN, 1);
-	}
-	else if (lock == 1)
-	{
-		pthread_mutex_unlock(&philo->data->forks[philo->id - 1]);
-		pthread_mutex_lock(&philo->mutex);
-		if (philo->id == args.nb_philos)
-			pthread_mutex_unlock(&philo->data->forks[0]);
-		else
-			pthread_mutex_unlock(&philo->data->forks[philo->id]);
-		pthread_mutex_unlock(&philo->mutex);
-	}
+	time_now = ft_time();
+	while (ft_time() - time_now < time)
+		usleep(500);
 }
 
 void	*routine(void *arg)
 {
 	t_philo	*philo;
-	t_args	args;
-	int		nb_meals;
 
 	philo = (t_philo *)arg;
-	init_args(&args, philo->data);
+	while (!get_value(&philo->data->data_mutex, &philo->data->start))
+		usleep(10);
+	set_time(&philo->time_mutex, &philo->time, get_time(&philo->data->data_mutex, &philo->data->time));
 	if (!(philo->id % 2))
-		ft_usleep(args.time_to_eat / 2);
+		ft_usleep(philo->data->args->time_to_eat / 2);
 	while (420)
 	{
-		pthread_mutex_lock(&philo->mutex);
-		nb_meals = philo->meals_eaten;
-		pthread_mutex_unlock(&philo->mutex);
-		if (args.max_meals == -1 || (args.max_meals != -1 && nb_meals < args.max_meals))
-		{
-			manage_forks(philo, 0, args);
-			ft_print(philo, IS_EATING, 1);
-			philo->time = get_time();
-			philo->meals_eaten++;
-			ft_usleep(args.time_to_eat);
-			manage_forks(philo, 1, args);
-			ft_print(philo, IS_SLEEPING, 1);
-			ft_usleep(args.time_to_sleep);
-			ft_print(philo, IS_THINKING, 1);
-		}
+		pthread_mutex_lock(philo->l_fork);
+		ft_print(philo, FORK_TAKEN, 1);
+		pthread_mutex_lock(philo->r_fork);
+		ft_print(philo, FORK_TAKEN, 1);
+		set_value(&philo->meals_mutex, &philo->meals_eaten, get_value(&philo->meals_mutex, &philo->meals_eaten) + 1);
+		set_time(&philo->time_mutex, &philo->time, ft_time());
+		ft_print(philo, IS_EATING, 1);
+		ft_usleep(philo->data->args->time_to_eat);
+		pthread_mutex_unlock(philo->l_fork);
+		pthread_mutex_unlock(philo->r_fork);
+		ft_print(philo, IS_SLEEPING, 1);
+		ft_usleep(philo->data->args->time_to_sleep);
+		ft_print(philo, IS_THINKING, 1);
 	}
 	return (NULL);
 }

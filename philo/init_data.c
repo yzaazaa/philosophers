@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:46:54 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/25 01:42:44 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/25 19:52:50 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@ static void	init_threads(t_data *data)
 
 	nb_philos = data->args->nb_philos;
 	i = -1;
-	data->time = get_time();
 	while (++i < nb_philos)
-	{
-		data->philos[i].time = data->time;
 		pthread_create(&data->philos[i].philo, NULL, routine, &data->philos[i]);
-	}
+	set_time(&data->data_mutex, &data->time, ft_time());
+	set_value(&data->data_mutex, &data->start, 1);
 	i = -1;
 	while (++i < nb_philos)
 		pthread_detach(data->philos[i].philo);
@@ -34,6 +32,7 @@ void	init_data(t_data *data)
 {
 	int	i;
 
+	data->start = 0;
 	data->philos = malloc(sizeof(t_philo) * data->args->nb_philos);
 	if (!data->philos)
 		ft_exit(MALLOC_ERR, &data);
@@ -44,10 +43,17 @@ void	init_data(t_data *data)
 	while (++i < data->args->nb_philos)
 	{
 		pthread_mutex_init(&data->forks[i], NULL);
-		pthread_mutex_init(&data->philos[i].mutex, NULL);
+		pthread_mutex_init(&data->philos[i].meals_mutex, NULL);
+		pthread_mutex_init(&data->philos[i].time_mutex, NULL);
 		data->philos[i].id = i + 1;
 		data->philos[i].data = data;
+		data->philos[i].is_full = 0;
 		data->philos[i].meals_eaten = 0;
+		data->philos[i].l_fork = &data->forks[data->philos[i].id - 1];
+		if (data->philos[i].id == data->args->nb_philos)
+			data->philos[i].r_fork = &data->forks[0];
+		else
+			data->philos[i].r_fork = &data->forks[data->philos[i].id];
 	}
 	pthread_mutex_init(&data->data_mutex, NULL);
 	init_threads(data);

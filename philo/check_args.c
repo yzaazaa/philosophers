@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:19:49 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/25 01:39:03 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/25 19:14:49 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	check_args(int ac, char **av, t_data *data)
 		ft_exit(MALLOC_ERR, NULL);
 	data->args = args;
 	args->nb_philos = ft_atoi(av[1], &data);
-	if (args->nb_philos < 1)
+	if (args->nb_philos < 1 || args->nb_philos > 200)
 		ft_exit(INVALID_ARGS, &data);
 	args->time_to_die = ft_atoi(av[2], &data);
 	args->time_to_eat = ft_atoi(av[3], &data);

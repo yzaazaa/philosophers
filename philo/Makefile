@@ -1,4 +1,4 @@
-SRCS = check_args.c ft_exit.c ft_print.c get_time.c init_data.c main.c manage_philos.c routine.c
+SRCS = check_args.c ft_exit.c ft_print.c ft_time.c init_data.c main.c manage_philos.c routine.c setter_getter.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -6,7 +6,7 @@ HEADER = philo.h
 
 NAME = philo
 
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
 
 COMP = cc
 

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:24:39 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/25 20:27:37 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/25 20:29:32 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	free_data(t_data **data)
 		free((*data)->forks);
 	}
 	pthread_mutex_destroy(&(*data)->data_mutex);
+	free((*data));
 }
 
 void	ft_exit(char *err_msg, t_data **data)

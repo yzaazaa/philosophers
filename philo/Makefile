@@ -6,7 +6,7 @@ HEADER = philo.h
 
 NAME = philo
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=thread
 
 COMP = cc
 

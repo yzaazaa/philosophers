@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:21:41 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/24 18:59:19 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/25 00:25:52 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ typedef struct s_args
 typedef struct s_philo
 {
 	pthread_t		philo;
-	long			time;
+	pthread_mutex_t	mutex;
+	int				time;
 	int				id;
 	int				meals_eaten;
 	struct s_data	*data;
@@ -53,13 +54,14 @@ typedef struct s_data
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	data_mutex;
-	long			time;
+	int				time;
 }				t_data;
 
 
 void	ft_exit(char *err_msg, t_data **data);
 void	check_args(int ac, char **av, t_data *data);
 void	init_data(t_data *data);
+void	init_args(t_args *args, t_data *data);
 void	*routine(void *arg);
 void	ft_print(t_philo *philo, char *s, int flag);
 int		get_time(void);

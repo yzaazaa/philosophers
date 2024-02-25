@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:19:49 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/24 19:34:49 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/25 01:39:03 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_isdigit(char c)
 	return (0);
 }
 
-static long	ft_atoi(char *str, t_data **data)
+static int	ft_atoi(char *str, t_data **data)
 {
 	int		i;
 	long	res;
@@ -36,7 +36,7 @@ static long	ft_atoi(char *str, t_data **data)
 	while (ft_isdigit(str[i]))
 	{
 		tmp = res * 10 + str[i] - '0';
-		if (res > tmp)
+		if (res > INT_MAX)
 			ft_exit(INVALID_ARGS, data);
 		res = tmp;
 		i++;

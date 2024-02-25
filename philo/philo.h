@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:21:41 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/25 19:55:52 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/25 20:28:11 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 # include <limits.h>
 
 # define INVALID_ARGS "Invalid arguments!\n"
-# define MALLOC_ERR "Malloc error!\n"
+# define MALLOC_ERR "Failed to allocate memory!\n"
+# define MUTEX_ERR "Failed to initialize mutex!\n"
+# define THREAD_ERR "Failed to create thread!\n"
+# define THREAD_DETACH_ERR "Failed to detach thread!\n"
 
 # define FORK_TAKEN "has taken a fork\n"
 # define IS_EATING "is eating\n"

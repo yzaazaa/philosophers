@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 22:31:24 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/26 07:47:44 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/26 08:05:35 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ typedef struct s_data
 	t_args			*args;
 	t_philo			*philos;
 	sem_t			*data_sem;
+	sem_t			*finished;
 	sem_t			*forks;
 	int				*pid;
 	long			time;
 	int				start;
+	int				philos_full;
 }				t_data;
 
 void	check_args(int ac, char **av, t_data *data);

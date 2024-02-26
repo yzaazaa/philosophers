@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_time.c                                         :+:      :+:    :+:   */
+/*   ft_print.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/24 18:45:57 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/25 19:50:41 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/02/24 18:40:48 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/02/26 03:36:26 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-long	ft_time(void)
+void	ft_print(t_philo *philo, char *s, int flag)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-void	ft_sleep(long time)
-{
-	long	time_now;
-
-	time_now = ft_time();
-	while (ft_time() - time_now < time)
-		usleep(500);
+	sem_wait(philo->data->data_sem);
+	if (s)
+		printf("%ld %d %s", ft_time() - philo->data->time, philo->id, s);
+	if (flag)
+		sem_post(philo->data->data_sem);
 }

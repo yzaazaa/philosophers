@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_time.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/24 18:45:57 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/25 19:50:41 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/02/25 22:33:44 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/02/26 07:42:54 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-long	ft_time(void)
+int	main(int ac, char **av)
 {
-	struct timeval	tv;
+	t_data	*data;
 
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-void	ft_sleep(long time)
-{
-	long	time_now;
-
-	time_now = ft_time();
-	while (ft_time() - time_now < time)
-		usleep(500);
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (0);
+	memset(&data, 0, sizeof(t_data));
+	check_args(ac, av, data);
+	init_data(data);
+	kill_processes(data);
+	ft_exit(NULL, &data);
 }

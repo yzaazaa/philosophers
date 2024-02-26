@@ -6,11 +6,11 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:24:39 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/25 20:51:51 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/26 03:47:55 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static int	ft_strlen(char *s)
 {
@@ -24,33 +24,15 @@ static int	ft_strlen(char *s)
 
 static void	free_data(t_data **data)
 {
-	int	i;
-	int	nb_philos;
-
 	if ((*data)->args)
-	{
-		nb_philos = (*data)->args->nb_philos;
 		free((*data)->args);
-	}
-	if ((*data)->philos)
-	{
-		i = -1;
-		while (++i < nb_philos)
-		{
-			pthread_mutex_destroy(&(*data)->philos[i].time_mutex);
-			pthread_mutex_destroy(&(*data)->philos[i].meals_mutex);
-		}
-		free((*data)->philos);
-	}
-	if ((*data)->forks)
-	{
-		i = -1;
-		while (++i < nb_philos)
-			pthread_mutex_destroy(&(*data)->forks[i]);
-		free((*data)->forks);
-	}
-	pthread_mutex_destroy(&(*data)->data_mutex);
-	free((*data));
+	sem_close((*data)->forks);
+	sem_close((*data)->data_sem);
+	sem_unlink("forks");
+	sem_unlink("data_sem");
+	if ((*data)->pid)
+		free((*data)->pid);
+	free(*data);
 }
 
 void	ft_exit(char *err_msg, t_data **data)

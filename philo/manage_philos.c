@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 18:13:34 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/25 19:53:09 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/26 03:30:49 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	manage_philos(t_data *data)
 
 	i = 0;
 	philos_ate_max_meals = 0;
-	ft_usleep(data->args->time_to_die / 2);
+	ft_sleep(data->args->time_to_die / 2);
 	while (420)
 	{
 		if (i == data->args->nb_philos)

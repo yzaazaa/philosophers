@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:20:44 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/27 02:09:05 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 21:20:20 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@ void	routine(t_philo *philo)
 		ft_print(philo, FORK_TAKEN, 1);
 		ft_print(philo, IS_EATING, 1);
 		set_time(philo->data->data_sem, &philo->time, ft_time());
-		set_value(philo->data->data_sem, &philo->meals_eaten, get_value(philo->data->data_sem, &philo->meals_eaten) + 1);
-		if (!philo->is_full && philo->data->args->max_meals != -1 && get_value(philo->data->data_sem, &philo->meals_eaten) == philo->data->args->max_meals)
+		set_value(philo->data->data_sem, &philo->meals_eaten,
+			get_value(philo->data->data_sem, &philo->meals_eaten) + 1);
+		if (!philo->is_full && philo->data->args->max_meals != -1
+			&& get_value(philo->data->data_sem, &philo->meals_eaten)
+			== philo->data->args->max_meals)
 		{
 			philo->is_full = 1;
 			sem_post(philo->data->full);

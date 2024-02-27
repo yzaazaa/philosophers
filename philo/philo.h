@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:21:41 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/27 19:39:44 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 21:05:20 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		get_value(pthread_mutex_t *mutex, int *value);
 void	set_value(pthread_mutex_t *mutex, int *to_set, int value);
 long	get_time(pthread_mutex_t *mutex, long *time);
 void	set_time(pthread_mutex_t *mutex, long *to_set, long time);
-void	ft_exit(char *err_msg, t_data **data);
+void	ft_exit(char *err_msg, t_data **data, int j, int k);
 int		check_args(int ac, char **av, t_data *data);
 int		init_data(t_data *data);
 void	*routine(void *arg);

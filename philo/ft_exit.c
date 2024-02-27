@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:24:39 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/27 02:46:05 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 21:20:49 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,55 @@ static int	ft_strlen(char *s)
 	return (len);
 }
 
-static void	clean(t_data **data, int nb_philos)
+static void	destroy(t_data **data, int nb_philos, int j, int k)
 {
 	int	i;
 
 	if ((*data)->philos)
 	{
 		i = -1;
-		while (++i < nb_philos)
+		if (j != -1 && k != -1)
 		{
-			pthread_mutex_destroy(&(*data)->philos[i].time_mutex);
-			pthread_mutex_destroy(&(*data)->philos[i].meals_mutex);
+			if (k != 1)
+				while (++i < nb_philos)
+					pthread_mutex_destroy(&(*data)->philos[i].meals_mutex);
+			else
+				while (++i < j)
+					pthread_mutex_destroy(&(*data)->philos[i].meals_mutex);
+			i = -1;
+			if (k != 2)
+				while (++i < nb_philos)
+					pthread_mutex_destroy(&(*data)->philos[i].time_mutex);
+			else
+				while (++i < j)
+					pthread_mutex_destroy(&(*data)->philos[i].time_mutex);
 		}
 		free((*data)->philos);
 	}
+}
+
+static void	clean(t_data **data, int nb_philos, int j, int k)
+{
+	int	i;
+
 	if ((*data)->forks)
 	{
 		i = -1;
-		while (++i < nb_philos)
-			pthread_mutex_destroy(&(*data)->forks[i]);
+		if (j != -1 && k != 1)
+		{
+			if (k != 0)
+				while (++i < nb_philos)
+					pthread_mutex_destroy(&(*data)->forks[i]);
+			else
+				while (++i < j)
+					pthread_mutex_destroy(&(*data)->forks[i]);
+		}
 		free((*data)->forks);
 	}
+	destroy(data, nb_philos, i, j);
 }
 
-static void	free_data(t_data **data)
+static void	free_data(t_data **data, int j, int k)
 {
 	int	nb_philos;
 
@@ -56,15 +81,16 @@ static void	free_data(t_data **data)
 		free((*data)->args);
 	}
 	if (nb_philos)
-		clean(data, nb_philos);
-	pthread_mutex_destroy(&(*data)->data_mutex);
+		clean(data, nb_philos, j, k);
+	if (k != 3)
+		pthread_mutex_destroy(&(*data)->data_mutex);
 	free((*data));
 }
 
-void	ft_exit(char *err_msg, t_data **data)
+void	ft_exit(char *err_msg, t_data **data, int j, int k)
 {
 	if (data && *data)
-		free_data(data);
+		free_data(data, j, k);
 	if (err_msg)
 		write(2, err_msg, ft_strlen(err_msg));
 }

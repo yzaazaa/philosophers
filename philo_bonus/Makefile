@@ -2,9 +2,9 @@ SRCS = check_args.c ft_exit.c ft_print.c ft_time.c init_data.c main.c process.c 
 
 OBJS = $(SRCS:.c=.o)
 
-HEADER = philo.h
+HEADER = philo_bonus.h
 
-NAME = philo
+NAME = philo_bonus
 
 CFLAGS = -Wall -Wextra -Werror -g
 

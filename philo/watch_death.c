@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_philos.c                                    :+:      :+:    :+:   */
+/*   watch_death.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -34,7 +34,7 @@ static int	check_time(t_philo *philo)
 	return (1);
 }
 
-void	manage_philos(t_data *data)
+void	watch_death(t_data *data)
 {
 	int		i;
 	int		philos_ate_max_meals;

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:43:40 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/26 08:07:08 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 02:44:50 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	main(int ac, char **av)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		ft_exit(MALLOC_ERR, NULL);
-	data->args = NULL;
-	data->philos = NULL;
-	data->forks = NULL;
-	check_args(ac, av, data);
-	init_data(data);
-	manage_philos(data);
+	memset(data, 0, sizeof(t_data));
+	if (check_args(ac, av, data))
+		return (1);
+	if (init_data(data))
+		return (1);
+	watch_death(data);
 	ft_exit(NULL, &data);
 }

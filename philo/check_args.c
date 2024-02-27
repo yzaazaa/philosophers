@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:19:49 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/27 01:40:29 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 02:56:45 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,24 @@ static int	ft_isdigit(char c)
 	return (0);
 }
 
-static int	ft_atoi(char *str, t_data **data)
+static int	ft_atoi(char *str)
+{
+	int		i;
+	long	res;
+
+	i = 0;
+	res = 0;
+	if (str[0] == '+')
+		i++;
+	while (ft_isdigit(str[i]))
+	{
+		res = (res * 10) + (str[i] - '0');
+		i++;
+	}
+	return (res);
+}
+
+static int	check_arg(char *str)
 {
 	int		i;
 	long	res;
@@ -28,46 +45,51 @@ static int	ft_atoi(char *str, t_data **data)
 	i = 0;
 	res = 0;
 	if (str[0] == '-')
-		ft_exit(INVALID_ARGS, data);
+		return (1);
 	if (str[0] == '+')
 		i++;
 	if (!str[i])
-		ft_exit(INVALID_ARGS, data);
+		return (1);
 	while (ft_isdigit(str[i]))
 	{
 		tmp = res * 10 + str[i] - '0';
 		if (res > INT_MAX)
-			ft_exit(INVALID_ARGS, data);
+			return (1);
 		res = tmp;
 		i++;
 	}
 	if (str[i])
-		ft_exit(INVALID_ARGS, data);
-	return (res);
+		return (1);
+	return (0);
 }
 
-void	check_args(int ac, char **av, t_data *data)
+int	check_args(int ac, char **av, t_data *data)
 {
 	t_args	*args;
 
 	if (ac != 5 && ac != 6)
-		ft_exit(INVALID_ARGS, NULL);
+		return (ft_exit(INVALID_ARGS, &data), 1);
 	args = malloc(sizeof(t_args));
 	if (!args)
-		ft_exit(MALLOC_ERR, NULL);
+		return (ft_exit(MALLOC_ERR, &data), 1);
 	data->args = args;
-	args->nb_philos = ft_atoi(av[1], &data);
-	args->time_to_die = ft_atoi(av[2], &data);
-	args->time_to_eat = ft_atoi(av[3], &data);
-	args->time_to_sleep = ft_atoi(av[4], &data);
-	if (args->nb_philos < 1 || args->nb_philos > 200
-		|| args->time_to_die < 60 || args->time_to_eat < 60
-		|| args->time_to_sleep < 60)
-		ft_exit(INVALID_ARGS, &data);
 	if (ac == 6)
-		args->max_meals = ft_atoi(av[5], &data);
+		args->max_meals = ft_atoi(av[5]);
 	else
 		args->max_meals = -1;
+	while (--ac > 1)
+		if (check_arg(av[ac]))
+			return (ft_exit(INVALID_ARGS, &data), 1);
+	args->nb_philos = ft_atoi(av[1]);
+	args->time_to_die = ft_atoi(av[2]);
+	args->time_to_eat = ft_atoi(av[3]);
+	args->time_to_sleep = ft_atoi(av[4]);
+	if (args->nb_philos < 1 || args->nb_philos > 200
+		|| args->time_to_die < 60 || args->time_to_eat < 60 || args->time_to_sleep < 60)
+		return (ft_exit(INVALID_ARGS, &data), 1);
 	if (args->max_meals == 0)
-		ft_exit(NULL, &data);
+		return (ft_exit(NULL, &data), 1);
+	printf("max_meals: %d\nmax_meals: %s\n", args->max_meals, av[5]);
+	ft_sleep(10);
+	return (0);
 }

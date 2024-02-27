@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:08:22 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/27 01:27:29 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 02:09:26 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ void	init_data(t_data *data)
 	if (data->forks == SEM_FAILED || data->data_sem == SEM_FAILED || data->finished == SEM_FAILED || data->full == SEM_FAILED || data->start == SEM_FAILED)
 		ft_exit(SEM_FAIL, &data);
 	sem_wait(data->finished);
+	i = -1;
+	while (++i < data->args->nb_philos)
+		sem_wait(data->start);
+	i = -1;
 	data->pid = malloc(sizeof(int) * data->args->nb_philos);
 	if (!data->pid)
 		ft_exit(MALLOC_ERR, &data);

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:24:39 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/27 01:24:50 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 01:56:15 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void	free_data(t_data **data)
 		sem_close((*data)->data_sem);
 	if ((*data)->finished && (*data)->finished != SEM_FAILED)
 		sem_close((*data)->finished);
+	if ((*data)->full && (*data)->full != SEM_FAILED)
+		sem_close((*data)->start);
 	if ((*data)->start && (*data)->start != SEM_FAILED)
 		sem_close((*data)->start);
 	sem_unlink("forks");

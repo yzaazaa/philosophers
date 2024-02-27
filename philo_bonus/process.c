@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:20:44 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/27 01:30:14 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 02:09:05 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	routine(t_philo *philo)
 		sem_wait(philo->data->forks);
 		ft_print(philo, FORK_TAKEN, 1);
 		ft_print(philo, IS_EATING, 1);
+		set_time(philo->data->data_sem, &philo->time, ft_time());
+		set_value(philo->data->data_sem, &philo->meals_eaten, get_value(philo->data->data_sem, &philo->meals_eaten) + 1);
 		if (!philo->is_full && philo->data->args->max_meals != -1 && get_value(philo->data->data_sem, &philo->meals_eaten) == philo->data->args->max_meals)
 		{
 			philo->is_full = 1;
 			sem_post(philo->data->full);
 		}
-		set_time(philo->data->data_sem, &philo->time, ft_time());
-		set_value(philo->data->data_sem, &philo->meals_eaten, get_value(philo->data->data_sem, &philo->meals_eaten) + 1);
 		ft_sleep(philo->data->args->time_to_eat);
 		sem_post(philo->data->forks);
 		sem_post(philo->data->forks);
@@ -46,6 +46,6 @@ void	process(t_philo *philo)
 	sem_wait(philo->data->start);
 	philo->time = ft_time();
 	if (!(philo->id % 2))
-		ft_sleep(10);
+		ft_sleep(philo->data->args->time_to_eat / 2);
 	routine(philo);
 }

@@ -6,13 +6,13 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:24:39 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/26 07:58:04 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 01:24:50 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static int	ft_strlen(char *s)
+static int	ft_strlen(const char *s)
 {
 	int	len;
 
@@ -26,14 +26,23 @@ static void	free_data(t_data **data)
 {
 	if ((*data)->args)
 		free((*data)->args);
-	sem_close((*data)->forks);
-	sem_close((*data)->data_sem);
-	sem_close((*data)->finished);
+	if ((*data)->forks && (*data)->forks != SEM_FAILED)
+		sem_close((*data)->forks);
+	if ((*data)->data_sem && (*data)->data_sem != SEM_FAILED)
+		sem_close((*data)->data_sem);
+	if ((*data)->finished && (*data)->finished != SEM_FAILED)
+		sem_close((*data)->finished);
+	if ((*data)->start && (*data)->start != SEM_FAILED)
+		sem_close((*data)->start);
 	sem_unlink("forks");
 	sem_unlink("data_sem");
 	sem_unlink("finished");
+	sem_unlink("full");
+	sem_unlink("start");
 	if ((*data)->pid)
 		free((*data)->pid);
+	if ((*data)->philos)
+		free((*data)->philos);
 	free(*data);
 }
 

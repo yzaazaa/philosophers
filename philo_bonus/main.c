@@ -6,11 +6,12 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 22:33:44 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/26 07:50:56 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 01:16:13 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
 
 int	main(int ac, char **av)
 {

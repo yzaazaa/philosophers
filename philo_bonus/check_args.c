@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:19:49 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/26 03:36:00 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 01:40:05 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,6 @@ void	check_args(int ac, char **av, t_data *data)
 		args->max_meals = ft_atoi(av[5], &data);
 	else
 		args->max_meals = -1;
+	if (args->max_meals == 0)
+		ft_exit(NULL, &data);
 }

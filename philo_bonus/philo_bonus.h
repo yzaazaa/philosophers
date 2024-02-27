@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 22:31:24 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/26 08:05:35 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 01:26:41 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ typedef struct s_data
 	sem_t			*data_sem;
 	sem_t			*finished;
 	sem_t			*forks;
+	sem_t			*full;
+	sem_t			*start;
+	pthread_t		watch_meals;
 	int				*pid;
 	long			time;
-	int				start;
-	int				philos_full;
 }				t_data;
 
 void	check_args(int ac, char **av, t_data *data);
@@ -75,9 +76,14 @@ void	init_data(t_data *data);
 long	ft_time(void);
 void	ft_sleep(long time);
 void	ft_print(t_philo *philo, char *s, int flag);
-void	process(t_data *data, int id);
-void	*watch_death(t_philo *philo);
+void	process(t_philo *philo);
+void	*watch_death(void *arg);
+void	*check_philos_full(void *arg);
 void	kill_processes(t_data *data);
 void	ft_exit(char *err_msg, t_data **data);
+int		get_value(sem_t *semaphore, int *value);
+void	set_value(sem_t *semaphore, int *to_set, int value);
+long	get_time(sem_t *semaphore, long *time);
+void	set_time(sem_t *semaphore, long *to_set, long time);
 
 #endif

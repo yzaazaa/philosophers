@@ -14,7 +14,9 @@
 
 static int	eat(int *philos_ate_max_meals, t_philo *philo)
 {
-	if (!philo->is_full && get_value(&philo->meals_mutex, &philo->meals_eaten) >= philo->data->args->max_meals)
+	if (!philo->is_full
+		&& get_value(&philo->meals_mutex, &philo->meals_eaten)
+		>= philo->data->args->max_meals)
 	{
 		philo->is_full = 1;
 		(*philos_ate_max_meals)++;
@@ -29,7 +31,8 @@ static int	eat(int *philos_ate_max_meals, t_philo *philo)
 
 static int	check_time(t_philo *philo)
 {
-	if (ft_time() - get_time(&philo->time_mutex, &philo->time) >= philo->data->args->time_to_die)
+	if (ft_time() - get_time(&philo->time_mutex, &philo->time)
+		>= philo->data->args->time_to_die)
 		return (0);
 	return (1);
 }
@@ -46,7 +49,8 @@ void	watch_death(t_data *data)
 	{
 		if (i == data->args->nb_philos)
 			i = 0;
-		if (data->args->max_meals != -1 && !eat(&philos_ate_max_meals, &data->philos[i]))
+		if (data->args->max_meals != -1
+			&& !eat(&philos_ate_max_meals, &data->philos[i]))
 			return ;
 		if (!check_time(&data->philos[i]))
 		{

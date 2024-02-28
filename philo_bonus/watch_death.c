@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:37:21 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/27 21:20:35 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 22:08:12 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	*watch_death(void *arg)
 	ft_sleep(philo->data->args->time_to_die / 2);
 	while (!philo->dead)
 	{
-		if (ft_time() - philo->time >= philo->data->args->time_to_die)
+		if (ft_time() - get_time(philo->data->data_sem, &philo->time)
+			>= philo->data->args->time_to_die)
 		{
 			philo->dead = 1;
 			ft_print(philo, DIED, 0);

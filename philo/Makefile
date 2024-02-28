@@ -6,7 +6,7 @@ HEADER = philo.h
 
 NAME = philo
 
-CFLAGS = #-Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g
 
 COMP = cc
 

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:24:39 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/27 21:20:49 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 22:00:18 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	clean(t_data **data, int nb_philos, int j, int k)
 	if ((*data)->forks)
 	{
 		i = -1;
-		if (j != -1 && k != 1)
+		if (j != -1 && k != -1)
 		{
 			if (k != 0)
 				while (++i < nb_philos)
@@ -67,7 +67,7 @@ static void	clean(t_data **data, int nb_philos, int j, int k)
 		}
 		free((*data)->forks);
 	}
-	destroy(data, nb_philos, i, j);
+	destroy(data, nb_philos, j, k);
 }
 
 static void	free_data(t_data **data, int j, int k)

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 18:00:50 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/27 20:31:47 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/27 21:52:11 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static void	eat(t_philo *philo)
 	ft_print(philo, FORK_TAKEN, 1);
 	pthread_mutex_lock(philo->r_fork);
 	ft_print(philo, FORK_TAKEN, 1);
+	ft_print(philo, IS_EATING, 1);
 	set_value(&philo->meals_mutex, &philo->meals_eaten,
 		get_value(&philo->meals_mutex, &philo->meals_eaten) + 1);
 	set_time(&philo->time_mutex, &philo->time, ft_time());
-	ft_print(philo, IS_EATING, 1);
 	ft_sleep(philo->data->args->time_to_eat);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
